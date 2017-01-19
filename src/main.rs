@@ -1,7 +1,20 @@
+extern crate rand;
+
 use std::io;
+
+// extern crate rand; すると、use rand されるのでいらない
+//use rand;
+
+// gen_range を使うために Rng スコープに入ってる必要がある
+// メソッドは「トレイト」と呼ばれるもので定義されていて、メソッドが動作するにはそのトレイトがスコープにある必要がある
+use rand::Rng;
 
 fn main() {
     println!("Guess the number!");
+
+    let secret_number = rand::thread_rng().gen_range(1, 101);
+
+    println!("The secret number is: {}", secret_number);
 
     println!("Please input your guess.");
 
