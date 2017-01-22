@@ -1,6 +1,7 @@
 extern crate rand;
 
 use std::io;
+use std::cmp::Ordering;
 
 // extern crate rand; すると、use rand されるのでいらない
 //use rand;
@@ -40,7 +41,19 @@ fn main() {
         // Rustはエラーの可能性があるのに処理していないことを教えてくれる
         .expect("Failed to read line");
 
+    // 以前の定義を新しい定義で隠すことができる(これをシャドーイングという)
+    // シャドーイングのおかげで guess_str と guess のように別々の名前を考える必要がなくなり、名前を再利用できる
+    let guess: u32 = guess.trim().parse()
+        .expect("Please type a number!");
+
     // {} はプレースホルダーで、引数として guess を渡している
     // 複数 {} があれば、複数の引数を渡す
     println!("You guessed: {}", guess);
+
+    // match文ではある型の値を取って、それぞれの可能な値に対する「腕」を作る
+    match guess.cmp(&secret_number) {
+        Ordering::Less    => println!("Too Small!!"),
+        Ordering::Greater => println!("Too Big!!"),
+        Ordering::Equal   => println!("You Win!!")
+    }
 }
